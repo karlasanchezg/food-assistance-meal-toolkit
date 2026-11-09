@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MEAL Readiness Check</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+body{margin:0}[hidden]{display:none!important}img{max-width:100%}
+/* Layout: one centered working column; intro, then one dimension per step, then a results profile. */
+:root{
+  --bg:#f4f6f3; --surface:#ffffff; --fg:#1c2a26; --muted:#5b6b66; --line:#d7dfda;
+  --accent:#2e6a4f; --accent-soft:#e3efe8; --grain:#b97b22;
+  --t1:#c2552f; --t2:#c9952a; --t3:#2e6a4f;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Public Sans", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121a18; --surface:#1a2522; --fg:#e6ece9; --muted:#9aaba5; --line:#2c3a36;
+  --accent:#6cc09a; --accent-soft:#1f352c; --grain:#e0a94e;
+  --t1:#e07a55; --t2:#e2b453; --t3:#6cc09a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#121a18; --surface:#1a2522; --fg:#e6ece9; --muted:#9aaba5; --line:#2c3a36;
+  --accent:#6cc09a; --accent-soft:#1f352c; --grain:#e0a94e;
+  --t1:#e07a55; --t2:#e2b453; --t3:#6cc09a; color-scheme:dark }
+
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding-block:28px 48px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
+  display:flex;flex-direction:column;gap:24px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:1.05rem;letter-spacing:.01em}
+.brand small{display:block;font-family:var(--body);font-weight:500;font-size:.78rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{border:0;background:transparent;color:var(--muted);padding:6px 14px;font:600 .85rem var(--body);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--accent);color:var(--bg)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,5vw,2.6rem);line-height:1.1;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:700;font-size:1.45rem;line-height:1.2;margin:0;text-wrap:balance}
+h3{font-family:var(--display);font-weight:500;font-size:1.1rem;margin:0}
+p{margin:0}
+.lede{font-size:1.08rem;color:var(--muted);max-width:62ch}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:16px}
+.dims{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;list-style:none;margin:0;padding:0}
+.dims li{display:flex;gap:10px;align-items:baseline;font-size:.95rem}
+.dims b{font-family:var(--display);color:var(--grain);min-width:1.2em}
+.tiers{display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--accent-soft)}
+.dot{width:9px;height:9px;border-radius:50%}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label.f{display:flex;flex-direction:column;gap:6px;font-size:.88rem;font-weight:600;min-width:0}
+input[type=text],select{font:inherit;font-weight:400;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);min-width:0}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font:600 .95rem var(--body);padding:11px 20px;border-radius:8px;border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:var(--bg)}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--grain);outline-offset:2px}
+.note{font-size:.85rem;color:var(--muted)}
+
+/* stepper */
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.steps span{height:6px;border-radius:3px;background:var(--line)}
+.steps span.done{background:var(--accent)}
+.steps span.now{background:var(--grain)}
+.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grain)}
+.q{display:flex;flex-direction:column;gap:10px;padding-top:16px;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:0;padding-top:0}
+.q legend{font-weight:600;padding:0;margin-bottom:4px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;background:var(--bg)}
+.opt:hover{border-color:var(--accent)}
+.opt input{margin-top:4px;accent-color:var(--accent)}
+.opt:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+
+/* results */
+.overall{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.badge{font-family:var(--display);font-weight:700;font-size:1.3rem;padding:8px 16px;border-radius:8px;color:var(--bg)}
+.chart{display:flex;flex-direction:column;gap:12px}
+.row{display:grid;grid-template-columns:minmax(0,190px) 1fr 92px;gap:12px;align-items:center;font-size:.92rem}
+.track{position:relative;height:14px;border-radius:7px;background:linear-gradient(90deg,var(--line) 0 50%,transparent 50%);background-color:var(--bg);border:1px solid var(--line);overflow:hidden}
+.bar{position:absolute;inset:0 auto 0 0;border-radius:7px}
+.lv{font-size:.8rem;font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
+.axis{display:grid;grid-template-columns:minmax(0,190px) 1fr 92px;gap:12px;font-size:.75rem;color:var(--muted)}
+.axis div:nth-child(2){display:flex;justify-content:space-between}
+.recs{display:flex;flex-direction:column;gap:14px}
+.rec{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border-left:4px solid var(--line);background:var(--bg);border-radius:0 8px 8px 0}
+.rec ul{margin:0;padding-left:20px}
+.priority{border:2px solid var(--grain)}
+.sample{font-size:.8rem;font-weight:600;color:var(--grain)}
+footer{font-size:.82rem;color:var(--muted);display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:18px}
+footer a{color:var(--accent)}
+cite{font-style:normal;user-select:all}
+@media (max-width:560px){
+  .fields{grid-template-columns:1fr}
+  .row,.axis{grid-template-columns:minmax(0,1fr) 84px}
+  .row .track{grid-column:1/-1;order:3}
+  .axis{display:none}
+}
+@media (prefers-reduced-motion:no-preference){.bar{transition:width .6s ease}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="index.html" style="color:inherit;text-decoration:none"><small data-t="kicker"></small><span data-t="appname"></span></a>
+    <div class="lang" role="group" aria-label="Language">
+      <button id="lang-en" type="button">English</button>
+      <button id="lang-es" type="button">Español</button>
+    </div>
+  </header>
+
+  <main id="view"></main>
+
+  <footer>
+    <p data-t="credit"></p>
+    <p><span data-t="citeas"></span> <cite id="cite"></cite></p>
+    <p data-t="privacy"></p>
+    <p><span data-t="related"></span> <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7667399" target="_blank" rel="noopener">Measuring What Matters (SSRN)</a></p>
+  </footer>
+</div>
+
+<script>
+const VERSION = "0.1";
+const T = {
+  en:{kicker:"Food Assistance MEAL Toolkit",appname:"MEAL Readiness Check",
+    title:"How well can your organization show its results?",
+    lede:"A 15-minute self-assessment for food pantries, meal programs, food banks and faith-based networks. Answer 24 questions across six areas of monitoring, evaluation, accountability and learning (MEAL) and get your level in each area, plus concrete first steps.",
+    covers:"What it covers",tiersLbl:"Levels",
+    orgname:"Organization name (optional)",orgtype:"Type of organization (optional)",
+    types:["Select one","Food pantry or meal program","Food bank","Faith-based network or parish","Community organization","Other"],
+    start:"Start the assessment",sample:"See a sample result",resume:"Continue where I left off",
+    step:"Area",of:"of",back:"Back",next:"Next area",finish:"See my results",answerAll:"Answer all questions in this area to continue.",
+    resTitle:"Your MEAL profile",overall:"Overall level",profile:"Level by area",
+    first:"Start here",firstNote:"This is the area with the most room to grow. Small steps here make the other areas easier.",
+    recsTitle:"Next steps by area",copy:"Copy summary",copied:"Summary copied",copyFail:"Copy did not work. Select the text below instead.",
+    restart:"Start over",edit:"Change my answers",sampleTag:"Example result with sample answers, not a real organization.",
+    levels:["Basic","Intermediate","Advanced"],
+    levelDesc:["Foundations are missing or informal.","Practices exist but are not yet consistent.","Practices are systematic and used for decisions."],
+    credit:"Created by Karla Michelle Sanchez, MEAL specialist. Version "+VERSION+" (November 2026), prototype for pilot testing. Licensed under Creative Commons CC BY-NC 4.0: you may use and adapt it with attribution, not for commercial purposes.",
+    citeas:"Cite as:",
+    privacy:"Your answers stay in your browser. Nothing is sent or stored on a server.",
+    related:"Based on the model described in"},
+  es:{kicker:"Food Assistance MEAL Toolkit",appname:"Diagnóstico de Capacidad MEAL",
+    title:"¿Qué tan bien puede su organización demostrar sus resultados?",
+    lede:"Una autoevaluación de 15 minutos para despensas, comedores, bancos de alimentos y redes de fe. Responda 24 preguntas en seis áreas de monitoreo, evaluación, rendición de cuentas y aprendizaje (MEAL) y obtenga su nivel en cada área, con primeros pasos concretos.",
+    covers:"Qué evalúa",tiersLbl:"Niveles",
+    orgname:"Nombre de la organización (opcional)",orgtype:"Tipo de organización (opcional)",
+    types:["Seleccione una opción","Despensa o comedor","Banco de alimentos","Red de fe o parroquia","Organización comunitaria","Otro"],
+    start:"Comenzar la autoevaluación",sample:"Ver un resultado de ejemplo",resume:"Continuar donde lo dejé",
+    step:"Área",of:"de",back:"Atrás",next:"Siguiente área",finish:"Ver mis resultados",answerAll:"Responda todas las preguntas de esta área para continuar.",
+    resTitle:"Su perfil MEAL",overall:"Nivel general",profile:"Nivel por área",
+    first:"Empiece aquí",firstNote:"Esta es el área con más espacio para crecer. Pequeños pasos aquí facilitan las demás áreas.",
+    recsTitle:"Próximos pasos por área",copy:"Copiar resumen",copied:"Resumen copiado",copyFail:"No se pudo copiar. Seleccione el texto de abajo.",
+    restart:"Empezar de nuevo",edit:"Cambiar mis respuestas",sampleTag:"Resultado de ejemplo con respuestas de muestra, no de una organización real.",
+    levels:["Básico","Intermedio","Avanzado"],
+    levelDesc:["Las bases faltan o son informales.","Las prácticas existen pero aún no son consistentes.","Las prácticas son sistemáticas y se usan para decidir."],
+    credit:"Creado por Karla Michelle Sanchez, especialista MEAL. Versión "+VERSION+" (noviembre 2026), prototipo para prueba piloto. Licencia Creative Commons CC BY-NC 4.0: puede usarla y adaptarla citando a la autora, sin fines comerciales.",
+    citeas:"Cítese como:",
+    privacy:"Sus respuestas se quedan en su navegador. Nada se envía ni se guarda en un servidor.",
+    related:"Basado en el modelo descrito en"}
+};
+
+/* Each dimension: name, intro, 4 questions with 4 options scored 0 to 3, and recommendations by level. */
+const D = [
+ {en:"Indicators and definitions",es:"Indicadores y definiciones",
+  ien:"What you measure and whether everyone measures it the same way.",ies:"Qué mide y si todos lo miden de la misma manera.",
+  q:[
+   {en:"What does your organization track regularly?",es:"¿Qué registra su organización de forma regular?",
+    o:[["Little or nothing consistently","Poco o nada de forma constante"],["Pounds or meals distributed","Libras o comidas distribuidas"],["Food distributed plus people or households served","Alimentos distribuidos y personas u hogares atendidos"],["Outputs plus some result, such as satisfaction or food security","Productos y algún resultado, como satisfacción o seguridad alimentaria"]]},
+   {en:"Are your indicators written down with a definition (what counts and how it is counted)?",es:"¿Sus indicadores están escritos con una definición (qué cuenta y cómo se cuenta)?",
+    o:[["No","No"],["Some informal notes","Algunas notas informales"],["Most have a written definition","La mayoría tiene una definición escrita"],["All have a reference sheet: definition, source, method, frequency","Todos tienen ficha: definición, fuente, método, frecuencia"]]},
+   {en:"Do all sites, shifts and volunteers count \"people served\" the same way?",es:"¿Todos los sitios, turnos y voluntarios cuentan \"personas atendidas\" de la misma manera?",
+    o:[["I don't know","No lo sé"],["No, it varies","No, varía"],["Mostly, with some differences","Casi siempre, con algunas diferencias"],["Yes, using a shared written definition","Sí, con una definición escrita común"]]},
+   {en:"Do you set targets for your main indicators?",es:"¿Establecen metas para sus indicadores principales?",
+    o:[["No","No"],["Informal goals","Metas informales"],["Annual targets for some indicators","Metas anuales para algunos indicadores"],["Annual targets for all, compared against results","Metas anuales para todos, comparadas con los resultados"]]}],
+  r:[
+   {en:["Choose 3 to 5 indicators you already collect, such as households served and pounds distributed.","Write a one-paragraph definition for each: what counts, what does not, and who records it.","Share the definitions with every site and shift."],
+    es:["Elija 3 a 5 indicadores que ya recolecta, como hogares atendidos y libras distribuidas.","Escriba una definición de un párrafo para cada uno: qué cuenta, qué no y quién lo registra.","Comparta las definiciones con todos los sitios y turnos."]},
+   {en:["Turn your definitions into indicator reference sheets: definition, unit, data source, method, frequency, disaggregation and responsible person.","Add at least one indicator about participant experience, not only volume.","Set simple annual targets for your core indicators."],
+    es:["Convierta sus definiciones en fichas de indicadores: definición, unidad, fuente, método, frecuencia, desagregación y responsable.","Agregue al menos un indicador sobre la experiencia de los participantes, no solo de volumen.","Defina metas anuales sencillas para sus indicadores principales."]},
+   {en:["Align your indicators with funder and network reporting so data is collected once.","Review definitions once a year with sites and update them.","Share your reference sheets with peer organizations."],
+    es:["Alinee sus indicadores con los reportes de donantes y de la red para recolectar los datos una sola vez.","Revise las definiciones una vez al año con los sitios y actualícelas.","Comparta sus fichas de indicadores con organizaciones pares."]}]},
+ {en:"Data quality",es:"Calidad de datos",
+  ien:"Whether the numbers you report can be trusted.",ies:"Si se puede confiar en los números que reporta.",
+  q:[
+   {en:"Who checks data before it is reported?",es:"¿Quién revisa los datos antes de reportarlos?",
+    o:[["Nobody","Nadie"],["Whoever compiles it takes a quick look","Quien los compila les da un vistazo"],["A designated person reviews it","Una persona designada los revisa"],["A designated person reviews it with a written checklist","Una persona designada los revisa con una lista de verificación escrita"]]},
+   {en:"Can you trace reported numbers back to source records, such as sign-in sheets or logs?",es:"¿Puede rastrear los números reportados hasta los registros de origen, como hojas de firma o bitácoras?",
+    o:[["No","No"],["Sometimes","A veces"],["Usually","Casi siempre"],["Yes, records are kept and spot-checked","Sí, los registros se guardan y se verifican por muestreo"]]},
+   {en:"How often do you verify data from partner sites or volunteers?",es:"¿Con qué frecuencia verifica los datos de sitios aliados o voluntarios?",
+    o:[["Never","Nunca"],["Only when a problem appears","Solo cuando aparece un problema"],["Occasionally","Ocasionalmente"],["On a schedule, with corrective actions tracked","Con un calendario y seguimiento de acciones correctivas"]]},
+   {en:"When errors are found, what happens?",es:"Cuando se encuentran errores, ¿qué pasa?",
+    o:[["Nothing formal","Nada formal"],["They are fixed in that report","Se corrigen en ese reporte"],["They are fixed and the cause is discussed","Se corrigen y se discute la causa"],["They are fixed, the cause is documented and the procedure is updated","Se corrigen, se documenta la causa y se actualiza el procedimiento"]]}],
+  r:[
+   {en:["Name one person responsible for reviewing data before it is sent.","Keep sign-in sheets or logs for at least one year.","Each month, compare the total you report with your sign-in sheets for one distribution day."],
+    es:["Designe a una persona responsable de revisar los datos antes de enviarlos.","Guarde las hojas de firma o bitácoras por al menos un año.","Cada mes, compare el total reportado con las hojas de firma de un día de distribución."]},
+   {en:["Use a short checklist to review data for validity, completeness, accuracy and timeliness.","Spot-check a small sample of records at partner sites once or twice a year.","Write down each error found and what was done about it."],
+    es:["Use una lista corta para revisar validez, integridad, precisión y puntualidad de los datos.","Verifique una pequeña muestra de registros en los sitios aliados una o dos veces al año.","Anote cada error encontrado y qué se hizo al respecto."]},
+   {en:["Run data quality assessments on a rotating sample of sites each year.","Track corrective action plans until they are closed.","Report data quality results to leadership alongside program results."],
+    es:["Realice evaluaciones de calidad de datos en una muestra rotativa de sitios cada año.","Dé seguimiento a los planes de acción correctiva hasta cerrarlos.","Reporte los resultados de calidad de datos a la dirección junto con los resultados del programa."]}]},
+ {en:"Participant voice",es:"Voz de los participantes",
+  ien:"Whether people served can give feedback safely and see it acted on.",ies:"Si las personas atendidas pueden opinar con seguridad y ver que se actúa.",
+  q:[
+   {en:"How can participants give feedback or make a complaint?",es:"¿Cómo pueden los participantes opinar o presentar una queja?",
+    o:[["There is no channel","No hay canal"],["Informally, by telling a volunteer","De manera informal, diciéndole a un voluntario"],["One formal channel, such as a box or form","Un canal formal, como un buzón o formulario"],["Several safe channels, including an anonymous option","Varios canales seguros, con opción anónima"]]},
+   {en:"Is feedback recorded?",es:"¿Se registran las opiniones y quejas?",
+    o:[["No","No"],["Sometimes","A veces"],["Most of it","La mayoría"],["All of it, with date, type and response","Todas, con fecha, tipo y respuesta"]]},
+   {en:"Do you respond and close the loop?",es:"¿Responden y cierran el ciclo?",
+    o:[["Rarely","Rara vez"],["Individually, when possible","De forma individual, cuando es posible"],["Most items get a documented response","La mayoría recibe una respuesta documentada"],["Responses are tracked and you tell participants what changed","Las respuestas se registran y se informa a los participantes qué cambió"]]},
+   {en:"Are feedback channels available in the languages participants speak?",es:"¿Los canales de opinión están en los idiomas que hablan los participantes?",
+    o:[["No","No"],["On request","A solicitud"],["In the main language plus one more","En el idioma principal y uno más"],["In all main languages of the people served","En todos los idiomas principales de las personas atendidas"]]}],
+  r:[
+   {en:["Set up one simple channel, such as a feedback box or a short card, in English and Spanish.","Tell participants clearly that feedback will never affect the help they receive.","Keep a basic log: date, type of feedback and response."],
+    es:["Habilite un canal sencillo, como un buzón o una tarjeta corta, en inglés y español.","Explique claramente que opinar nunca afectará la ayuda que reciben.","Lleve un registro básico: fecha, tipo de opinión y respuesta."]},
+   {en:["Add a second channel, such as phone or text, with an anonymous option.","Set a response time standard, for example 10 working days.","Post a short \"You said, we did\" notice at the distribution site each quarter."],
+    es:["Agregue un segundo canal, como teléfono o mensaje de texto, con opción anónima.","Defina un tiempo de respuesta, por ejemplo 10 días hábiles.","Publique cada trimestre un aviso corto de \"Ustedes dijeron, nosotros hicimos\" en el sitio de distribución."]},
+   {en:["Define referral pathways for sensitive complaints.","Analyze feedback trends every quarter and bring them to learning reviews.","Measure the share of feedback closed with a documented response."],
+    es:["Defina rutas de referencia para quejas sensibles.","Analice las tendencias de las opiniones cada trimestre y llévelas a las revisiones de aprendizaje.","Mida el porcentaje de opiniones cerradas con una respuesta documentada."]}]},
+ {en:"Learning and use of evidence",es:"Aprendizaje y uso de evidencia",
+  ien:"Whether data and feedback lead to better decisions.",ies:"Si los datos y las opiniones llevan a mejores decisiones.",
+  q:[
+   {en:"How often does your team review its data together?",es:"¿Con qué frecuencia su equipo revisa sus datos en conjunto?",
+    o:[["Never","Nunca"],["Once a year, for reports","Una vez al año, para los informes"],["A few times a year","Algunas veces al año"],["On a set schedule, such as quarterly, with partners","Con un calendario fijo, como trimestral, con los aliados"]]},
+   {en:"In the past year, did data or feedback lead to a change in services?",es:"En el último año, ¿los datos o las opiniones llevaron a un cambio en los servicios?",
+    o:[["No","No"],["I'm not sure","No estoy seguro/a"],["Once or twice","Una o dos veces"],["Yes, several documented changes","Sí, varios cambios documentados"]]},
+   {en:"Who sees your data?",es:"¿Quién ve sus datos?",
+    o:[["Only the funder","Solo el donante"],["Leadership","La dirección"],["Staff and volunteers","El personal y los voluntarios"],["Staff, volunteers, partners and a summary for participants","Personal, voluntarios, aliados y un resumen para los participantes"]]},
+   {en:"Are action points from reviews tracked?",es:"¿Se da seguimiento a los acuerdos de las revisiones?",
+    o:[["No","No"],["Sometimes noted","A veces se anotan"],["Usually noted","Casi siempre se anotan"],["Tracked with an owner and follow-up","Se registran con responsable y seguimiento"]]}],
+  r:[
+   {en:["Hold one 60-minute meeting to look at your numbers and participant comments together.","Ask three questions: What went well? What surprised us? What will we try?","Write down one decision and who owns it."],
+    es:["Haga una reunión de 60 minutos para revisar juntos sus números y los comentarios de los participantes.","Haga tres preguntas: ¿Qué salió bien? ¿Qué nos sorprendió? ¿Qué vamos a probar?","Anote una decisión y quién es responsable."]},
+   {en:["Schedule learning reviews every quarter with sites or partners.","Use a simple action log with owner and due date.","Share a one-page summary of results with staff and volunteers."],
+    es:["Programe revisiones de aprendizaje cada trimestre con sitios o aliados.","Use un registro de acuerdos con responsable y fecha.","Comparta un resumen de una página con el personal y los voluntarios."]},
+   {en:["Define a short learning agenda: two to four questions you want your data to answer each year.","Use dashboards that show each site its own data next to network averages.","Publish annual learning briefs for funders, partners and the community."],
+    es:["Defina una agenda de aprendizaje corta: dos a cuatro preguntas que sus datos deben responder cada año.","Use tableros que muestren a cada sitio sus datos junto al promedio de la red.","Publique notas anuales de aprendizaje para donantes, aliados y la comunidad."]}]},
+ {en:"Equity of reach",es:"Equidad en el alcance",
+  ien:"Whether you know who you reach and who you miss.",ies:"Si sabe a quién llega y a quién no.",
+  q:[
+   {en:"Do you collect basic household information, such as size, age groups or ZIP code?",es:"¿Recolecta información básica del hogar, como tamaño, grupos de edad o código postal?",
+    o:[["No","No"],["Some of it","Una parte"],["Most of it","La mayoría"],["Yes, consistently and with consent","Sí, de forma constante y con consentimiento"]]},
+   {en:"Can you break down your numbers by group or area?",es:"¿Puede desagregar sus números por grupo o zona?",
+    o:[["No","No"],["Only with a lot of manual work","Solo con mucho trabajo manual"],["For some indicators","Para algunos indicadores"],["Routinely","De forma rutinaria"]]},
+   {en:"Do you know which groups in your area are not reaching your services?",es:"¿Sabe qué grupos de su zona no están llegando a sus servicios?",
+    o:[["No","No"],["We have assumptions","Tenemos suposiciones"],["We have some evidence","Tenemos algo de evidencia"],["Yes, analyzed with outside data such as census or need maps","Sí, analizado con datos externos como censo o mapas de necesidad"]]},
+   {en:"Have you adjusted services to reach underserved groups (hours, location, language)?",es:"¿Ha ajustado los servicios para llegar a grupos desatendidos (horarios, lugar, idioma)?",
+    o:[["No","No"],["We have discussed it","Lo hemos conversado"],["Once","Una vez"],["Regularly, based on data","Con regularidad, según los datos"]]}],
+  r:[
+   {en:["Add two or three questions to intake: household size, children and seniors, ZIP code.","Explain why you ask and that answers are optional.","Count your households by ZIP code once a quarter."],
+    es:["Agregue dos o tres preguntas al registro: tamaño del hogar, niños y adultos mayores, código postal.","Explique por qué pregunta y que las respuestas son opcionales.","Cuente sus hogares por código postal una vez al trimestre."]},
+   {en:["Disaggregate your core indicators by household type and area.","Compare who you serve with local need data, such as census or food bank maps.","Pick one underserved group and test one change, such as evening hours."],
+    es:["Desagregue sus indicadores principales por tipo de hogar y zona.","Compare a quién atiende con datos de necesidad local, como el censo o mapas del banco de alimentos.","Elija un grupo desatendido y pruebe un cambio, como un horario nocturno."]},
+   {en:["Review reach gaps in every learning review.","Track whether adjustments increased participation from the target group.","Share reach analysis with partners to coordinate coverage."],
+    es:["Revise las brechas de alcance en cada revisión de aprendizaje.","Mida si los ajustes aumentaron la participación del grupo meta.","Comparta el análisis de alcance con aliados para coordinar la cobertura."]}]},
+ {en:"Food security as context",es:"Seguridad alimentaria como contexto",
+  ien:"Whether you understand participants' situation and experience, with care for privacy.",ies:"Si comprende la situación y experiencia de los participantes, cuidando su privacidad.",
+  q:[
+   {en:"Do you ever measure participants' food security?",es:"¿Alguna vez mide la seguridad alimentaria de los participantes?",
+    o:[["Never","Nunca"],["Only through stories or anecdotes","Solo con historias o anécdotas"],["Once, or occasionally","Una vez, u ocasionalmente"],["Periodically, with a validated tool such as the USDA module or Hunger Vital Sign","Periódicamente, con una herramienta validada como el módulo de USDA o Hunger Vital Sign"]]},
+   {en:"Do you ask participants about their satisfaction with the quality, quantity and cultural fit of the food?",es:"¿Pregunta a los participantes por su satisfacción con la calidad, cantidad y pertinencia cultural de los alimentos?",
+    o:[["No","No"],["Informally","De manera informal"],["Through an occasional survey","Con una encuesta ocasional"],["Through a regular survey","Con una encuesta regular"]]},
+   {en:"How do you handle consent and data protection?",es:"¿Cómo maneja el consentimiento y la protección de datos?",
+    o:[["No procedures","Sin procedimientos"],["Verbal and informal","Verbal e informal"],["Consent is obtained and data has some protection","Se obtiene consentimiento y los datos tienen alguna protección"],["Written procedure, secure storage and limited access","Procedimiento escrito, almacenamiento seguro y acceso limitado"]]},
+   {en:"Is this information used for decisions, such as food mix or referrals?",es:"¿Esta información se usa para decidir, por ejemplo la mezcla de alimentos o las referencias?",
+    o:[["No","No"],["Rarely","Rara vez"],["Sometimes","A veces"],["Regularly","Con regularidad"]]}],
+  r:[
+   {en:["Write a short consent script and a rule for where participant data is stored and who can see it.","Start with three satisfaction questions on quality, quantity and cultural fit.","Never make answering a condition for receiving food."],
+    es:["Escriba un guion corto de consentimiento y una regla sobre dónde se guardan los datos y quién los ve.","Empiece con tres preguntas de satisfacción sobre calidad, cantidad y pertinencia cultural.","Nunca condicione la ayuda a que respondan."]},
+   {en:["Run a short participant survey twice a year with a small sample.","Consider the two-question Hunger Vital Sign at intake or in the survey.","Bring survey results to your learning reviews."],
+    es:["Aplique una encuesta corta a una pequeña muestra dos veces al año.","Considere las dos preguntas del Hunger Vital Sign en el registro o la encuesta.","Lleve los resultados de la encuesta a sus revisiones de aprendizaje."]},
+   {en:["Track food security at selected sites with the USDA six-item module.","Use the results as context for decisions, not as proof of impact.","Partner with a university if you want to test which service models work best."],
+    es:["Mida la seguridad alimentaria en sitios seleccionados con el módulo de seis preguntas de USDA.","Use los resultados como contexto para decidir, no como prueba de impacto.","Alíese con una universidad si quiere probar qué modelos de servicio funcionan mejor."]}]}
+];
+
+const SAMPLE = [[2,1,1,1],[1,1,0,1],[1,0,1,2],[1,1,1,0],[2,1,0,1],[0,1,1,1]];
+const KEY="meal-check-v1";
+let S = {lang:"en",screen:"intro",step:0,answers:D.map(d=>d.q.map(()=>null)),org:"",type:0,sample:false};
+
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.answers&&s.answers.length===D.length)S=Object.assign(S,s);const l=localStorage.getItem("fam-lang");if(l==="en"||l==="es")S.lang=l;}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));localStorage.setItem("fam-lang",S.lang);}catch(e){}}
+const t=k=>T[S.lang][k];
+const L=o=>o[S.lang];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function dimScore(i){const a=S.answers[i];return a.reduce((s,v)=>s+(v??0),0)/a.length;}
+function level(sc){return sc<1.5?0:sc<2.5?1:2;}
+const tierColor=l=>["var(--t1)","var(--t2)","var(--t3)"][l];
+function complete(i){return S.answers[i].every(v=>v!==null);}
+function anyStarted(){return S.answers.some(a=>a.some(v=>v!==null));}
+
+function staticText(){
+  document.documentElement.lang=S.lang;
+  document.querySelectorAll("[data-t]").forEach(el=>el.textContent=t(el.dataset.t));
+  document.getElementById("lang-en").setAttribute("aria-pressed",S.lang==="en");
+  document.getElementById("lang-es").setAttribute("aria-pressed",S.lang==="es");
+  document.getElementById("cite").textContent = S.lang==="en"
+    ? "Sanchez, K. M. (2026). Food Assistance MEAL Toolkit: MEAL Readiness Check (Version "+VERSION+")."
+    : "Sanchez, K. M. (2026). Food Assistance MEAL Toolkit: Diagnóstico de Capacidad MEAL (Versión "+VERSION+").";
+}
+
+function intro(){
+  return `<section style="display:flex;flex-direction:column;gap:20px">
+    <h1>${t("title")}</h1>
+    <p class="lede">${t("lede")}</p>
+    <div class="panel">
+      <h3>${t("covers")}</h3>
+      <ul class="dims">${D.map((d,i)=>`<li><b>${i+1}</b><span><strong>${esc(L(d))}</strong><br><span class="note">${esc(S.lang==="en"?d.ien:d.ies)}</span></span></li>`).join("")}</ul>
+      <h3>${t("tiersLbl")}</h3>
+      <div class="tiers">${[0,1,2].map(l=>`<span class="chip"><span class="dot" style="background:${tierColor(l)}"></span>${t("levels")[l]}: ${t("levelDesc")[l]}</span>`).join("")}</div>
+    </div>
+    <div class="panel">
+      <div class="fields">
+        <label class="f" for="org">${t("orgname")}<input type="text" id="org" value="${esc(S.org)}" autocomplete="organization"></label>
+        <label class="f" for="otype">${t("orgtype")}<select id="otype">${t("types").map((o,i)=>`<option value="${i}" ${i==S.type?"selected":""}>${o}</option>`).join("")}</select></label>
+      </div>
+      <div class="actions">
+        <button class="btn" id="go">${anyStarted()&&!S.sample?t("resume"):t("start")}</button>
+        <button class="btn ghost" id="demo">${t("sample")}</button>
+      </div>
+    </div></section>`;
+}
+
+function stepView(){
+  const i=S.step,d=D[i];
+  return `<section class="panel">
+    <div class="steps" aria-hidden="true">${D.map((_,k)=>`<span class="${k<i?"done":k===i?"now":""}"></span>`).join("")}</div>
+    <p class="eyebrow">${t("step")} ${i+1} ${t("of")} ${D.length}</p>
+    <h2>${esc(L(d))}</h2>
+    <p class="note">${esc(S.lang==="en"?d.ien:d.ies)}</p>
+    ${d.q.map((q,qi)=>`<fieldset class="q"><legend>${qi+1}. ${esc(L(q))}</legend><div class="opts">
+      ${q.o.map((o,oi)=>`<label class="opt" for="q${i}-${qi}-${oi}"><input type="radio" id="q${i}-${qi}-${oi}" name="q${i}-${qi}" value="${oi}" ${S.answers[i][qi]===oi?"checked":""}><span>${esc(o[S.lang==="en"?0:1])}</span></label>`).join("")}
+    </div></fieldset>`).join("")}
+    <p class="note" id="hint" ${complete(i)?"hidden":""}>${t("answerAll")}</p>
+    <div class="actions">
+      <button class="btn ghost" id="back">${t("back")}</button>
+      <button class="btn" id="next" ${complete(i)?"":"disabled"}>${i===D.length-1?t("finish"):t("next")}</button>
+    </div></section>`;
+}
+
+function summaryText(){
+  const lines=[t("appname")+(S.org?" | "+S.org:""),""];
+  const ov=level(D.reduce((s,_,i)=>s+dimScore(i),0)/D.length);
+  lines.push(t("overall")+": "+t("levels")[ov]);
+  D.forEach((d,i)=>lines.push(L(d)+": "+t("levels")[level(dimScore(i))]+" ("+dimScore(i).toFixed(1)+"/3)"));
+  lines.push("",document.getElementById("cite").textContent);
+  return lines.join("\n");
+}
+
+function results(){
+  const scores=D.map((_,i)=>dimScore(i));
+  const avg=scores.reduce((a,b)=>a+b,0)/scores.length, ov=level(avg);
+  const pri=scores.indexOf(Math.min(...scores));
+  const typeName=S.type>0?t("types")[S.type]:"";
+  return `<section style="display:flex;flex-direction:column;gap:20px">
+    ${S.sample?`<p class="sample">${t("sampleTag")}</p>`:""}
+    <h1>${t("resTitle")}</h1>
+    ${S.org||typeName?`<p class="lede">${esc([S.org,typeName].filter(Boolean).join(" · "))}</p>`:""}
+    <div class="panel">
+      <div class="overall"><span class="note">${t("overall")}</span><span class="badge" style="background:${tierColor(ov)}">${t("levels")[ov]}</span><span class="note">${t("levelDesc")[ov]}</span></div>
+      <h3>${t("profile")}</h3>
+      <div class="chart" role="img" aria-label="${t("profile")}">
+        <div class="axis"><div></div><div><span>0</span><span>1.5</span><span>2.5</span><span>3</span></div><div></div></div>
+        ${D.map((d,i)=>{const l=level(scores[i]);return `<div class="row"><span>${esc(L(d))}</span><div class="track"><div class="bar" style="width:${(scores[i]/3*100).toFixed(0)}%;background:${tierColor(l)}"></div></div><span class="lv" style="color:${tierColor(l)}">${t("levels")[l]} ${scores[i].toFixed(1)}</span></div>`}).join("")}
+      </div>
+    </div>
+    <h2>${t("recsTitle")}</h2>
+    <div class="recs">
+      ${[pri,...D.map((_,i)=>i).filter(i=>i!==pri)].map(i=>{const l=level(scores[i]);const r=D[i].r[l][S.lang];
+        return `<div class="rec ${i===pri?"priority":""}" style="border-left-color:${tierColor(l)}">
+          ${i===pri?`<span class="eyebrow">${t("first")}</span>`:""}
+          <h3>${esc(L(D[i]))}: ${t("levels")[l]}</h3>
+          ${i===pri?`<p class="note">${t("firstNote")}</p>`:""}
+          <ul>${r.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`}).join("")}
+    </div>
+    <div class="actions">
+      <button class="btn" id="copy">${t("copy")}</button>
+      <button class="btn ghost" id="edit">${t("edit")}</button>
+      <button class="btn ghost" id="restart">${t("restart")}</button>
+      <span class="note" id="copymsg" role="status"></span>
+    </div>
+    <pre id="sumtext" class="note" hidden style="white-space:pre-wrap;user-select:all"></pre>
+  </section>`;
+}
+
+function render(){
+  staticText();
+  const v=document.getElementById("view");
+  v.innerHTML = S.screen==="intro"?intro():S.screen==="step"?stepView():results();
+  bind(); save();
+}
+
+function bind(){
+  const $=id=>document.getElementById(id);
+  if(S.screen==="intro"){
+    $("org").addEventListener("input",e=>{S.org=e.target.value;save();});
+    $("otype").addEventListener("change",e=>{S.type=+e.target.value;save();});
+    $("go").onclick=()=>{if(S.sample){S.answers=D.map(d=>d.q.map(()=>null));S.sample=false;}
+      const f=S.answers.findIndex(a=>a.some(v=>v===null));S.step=f<0?0:f;S.screen="step";render();scrollTo(0,0);};
+    $("demo").onclick=()=>{S.answers=SAMPLE.map(a=>a.slice());S.sample=true;S.screen="results";render();scrollTo(0,0);};
+  } else if(S.screen==="step"){
+    document.querySelectorAll('#view input[type=radio]').forEach(r=>r.addEventListener("change",e=>{
+      const [,i,qi]=e.target.name.match(/q(\d+)-(\d+)/);S.answers[+i][+qi]=+e.target.value;S.sample=false;save();
+      const ok=complete(S.step);$("next").disabled=!ok;$("hint").hidden=ok;}));
+    $("back").onclick=()=>{if(S.step===0)S.screen="intro";else S.step--;render();scrollTo(0,0);};
+    $("next").onclick=()=>{if(S.step===D.length-1)S.screen="results";else S.step++;render();scrollTo(0,0);};
+  } else {
+    $("copy").onclick=()=>{const txt=summaryText();const msg=$("copymsg");
+      try{navigator.clipboard.writeText(txt).then(()=>{msg.textContent=t("copied");},()=>{msg.textContent=t("copyFail");$("sumtext").textContent=txt;$("sumtext").hidden=false;});}
+      catch(e){msg.textContent=t("copyFail");$("sumtext").textContent=txt;$("sumtext").hidden=false;}};
+    $("edit").onclick=()=>{if(S.sample){S.answers=D.map(d=>d.q.map(()=>null));S.sample=false;}S.step=0;S.screen="step";render();scrollTo(0,0);};
+    $("restart").onclick=()=>{S.answers=D.map(d=>d.q.map(()=>null));S.sample=false;S.step=0;S.screen="intro";render();scrollTo(0,0);};
+  }
+}
+
+document.getElementById("lang-en").onclick=()=>{S.lang="en";render();};
+document.getElementById("lang-es").onclick=()=>{S.lang="es";render();};
+load(); render();
+</script>
+</body>
+</html>

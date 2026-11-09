@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this toolkit, please cite it as below."
+title: "Food Assistance MEAL Toolkit"
+abstract: "Free, bilingual tools for monitoring, evaluation, accountability and learning (MEAL) in food pantries, meal programs, food banks and faith-based networks in the United States."
+type: software
+authors:
+  - family-names: "Sanchez"
+    given-names: "Karla Michelle"
+version: "0.1"
+date-released: "2026-11-09"
+license: CC-BY-NC-4.0
+keywords:
+  - monitoring and evaluation
+  - MEAL
+  - food assistance
+  - food banks
+  - accountability
+references:
+  - type: article
+    title: "Measuring What Matters: Bringing Results-Based Accountability to U.S. Charitable Food Networks"
+    authors:
+      - family-names: "Sanchez"
+        given-names: "Karla Michelle"
+    year: 2026
+    url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7667399"

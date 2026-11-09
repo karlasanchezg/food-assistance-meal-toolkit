@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Food Assistance MEAL Toolkit</title>
+<meta name="description" content="Free, bilingual tools for monitoring, evaluation, accountability and learning (MEAL) in food pantries, meal programs, food banks and faith-based networks.">
+<meta name="author" content="Karla Michelle Sanchez">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+body{margin:0}[hidden]{display:none!important}img{max-width:100%}
+/* Layout: a toolkit shelf. Intro, then the modules as a grid of tool cards, then how the tiers work, then authorship. */
+:root{
+  --bg:#f4f6f3; --surface:#ffffff; --fg:#1c2a26; --muted:#5b6b66; --line:#d7dfda;
+  --accent:#2e6a4f; --accent-soft:#e3efe8; --grain:#b97b22;
+  --t1:#c2552f; --t2:#c9952a; --t3:#2e6a4f;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Public Sans", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121a18; --surface:#1a2522; --fg:#e6ece9; --muted:#9aaba5; --line:#2c3a36;
+  --accent:#6cc09a; --accent-soft:#1f352c; --grain:#e0a94e;
+  --t1:#e07a55; --t2:#e2b453; --t3:#6cc09a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#121a18; --surface:#1a2522; --fg:#e6ece9; --muted:#9aaba5; --line:#2c3a36;
+  --accent:#6cc09a; --accent-soft:#1f352c; --grain:#e0a94e;
+  --t1:#e07a55; --t2:#e2b453; --t3:#6cc09a; color-scheme:dark }
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding-block:28px 48px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
+  display:flex;flex-direction:column;gap:40px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:1.05rem}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{border:0;background:transparent;color:var(--muted);padding:6px 14px;font:600 .85rem var(--body);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--accent);color:var(--bg)}
+:focus-visible{outline:3px solid var(--grain);outline-offset:2px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(2rem,5.5vw,3rem);line-height:1.05;margin:0;text-wrap:balance;max-width:20ch}
+h2{font-family:var(--display);font-weight:700;font-size:1.5rem;margin:0;text-wrap:balance}
+h3{font-family:var(--display);font-weight:500;font-size:1.1rem;margin:0}
+p{margin:0}
+.hero{display:flex;flex-direction:column;gap:16px}
+.lede{font-size:1.1rem;color:var(--muted);max-width:62ch}
+.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grain)}
+section{display:flex;flex-direction:column;gap:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.tool{display:flex;flex-direction:column;gap:8px;padding:18px;border:1px solid var(--line);border-radius:10px;background:var(--bg);min-width:0}
+.tool.live{background:var(--surface);border-color:var(--accent)}
+.tool .status{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tool.live .status{color:var(--accent)}
+.tool p{font-size:.93rem;color:var(--muted)}
+.tool .ws{font-size:.8rem;color:var(--grain);font-weight:600}
+.btn{align-self:flex-start;margin-top:auto;font:600 .95rem var(--body);padding:10px 18px;border-radius:8px;background:var(--accent);color:var(--bg);text-decoration:none}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tier{padding:16px;border-top:4px solid;background:var(--surface);border-radius:0 0 8px 8px;display:flex;flex-direction:column;gap:6px}
+.tier p{font-size:.92rem;color:var(--muted)}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.cols p{max-width:62ch}
+footer{font-size:.85rem;color:var(--muted);display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:20px}
+footer a,.cols a{color:var(--accent)}
+cite{font-style:normal;user-select:all;color:var(--fg)}
+@media (max-width:640px){.tiers,.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="brand">Food Assistance MEAL Toolkit</span>
+    <div class="lang" role="group" aria-label="Language">
+      <button id="lang-en" type="button">English</button>
+      <button id="lang-es" type="button">Español</button>
+    </div>
+  </header>
+
+  <div class="hero">
+    <p class="eyebrow" data-t="kicker"></p>
+    <h1 data-t="title"></h1>
+    <p class="lede" data-t="lede"></p>
+  </div>
+
+  <section>
+    <h2 data-t="toolsH"></h2>
+    <div class="grid" id="tools"></div>
+  </section>
+
+  <section>
+    <h2 data-t="tiersH"></h2>
+    <p class="lede" data-t="tiersP"></p>
+    <div class="tiers" id="tiers"></div>
+  </section>
+
+  <section class="cols">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <h3 data-t="whyH"></h3>
+      <p data-t="whyP"></p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <h3 data-t="buildH"></h3>
+      <p data-t="buildP"></p>
+      <p><span data-t="paper"></span> <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7667399" target="_blank" rel="noopener">Measuring What Matters (SSRN)</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <p data-t="credit"></p>
+    <p><span data-t="citeas"></span> <cite>Sanchez, K. M. (2026). Food Assistance MEAL Toolkit (Version 0.1).</cite></p>
+    <p data-t="privacy"></p>
+  </footer>
+</div>
+
+<script>
+const T={
+ en:{kicker:"Free, bilingual and open",
+  title:"Tools to measure what your food assistance achieves",
+  lede:"Practical monitoring, evaluation, accountability and learning (MEAL) tools for food pantries, meal programs, food banks and faith-based networks. Designed for organizations that run on volunteers and limited budgets, in English and Spanish.",
+  toolsH:"Tools",live:"Available now",soon:"Coming soon",open:"Open the tool",
+  tiersH:"Start where you are",
+  tiersP:"Every tool works at three levels, so a volunteer-run pantry and a regional food bank can both use it.",
+  whyH:"Why this toolkit",
+  whyP:"Charitable food reaches millions of households, but many organizations can show how much food they distribute and not much more. Common definitions, verified data, participant feedback and regular learning reviews help them use resources well, hear the people they serve and show results to funders.",
+  buildH:"What it builds on",
+  buildP:"The toolkit adapts measurement and accountability practices long used in U.S.-funded international food assistance, such as indicator reference sheets, data quality assessments and complaints and feedback mechanisms, to the reality of U.S. charitable food. It complements existing sector efforts and does not replace them.",
+  paper:"The model is described in",
+  credit:"Created by Karla Michelle Sanchez, MEAL specialist. Version 0.1, November 2026. Licensed under Creative Commons CC BY-NC 4.0: free to use and adapt with attribution, not for commercial purposes.",
+  citeas:"Cite as:",
+  privacy:"The tools run in your browser. Your answers are not sent to or stored on any server."},
+ es:{kicker:"Gratis, bilingüe y abierto",
+  title:"Herramientas para medir lo que logra su asistencia alimentaria",
+  lede:"Herramientas prácticas de monitoreo, evaluación, rendición de cuentas y aprendizaje (MEAL) para despensas, comedores, bancos de alimentos y redes de fe. Diseñadas para organizaciones que funcionan con voluntarios y presupuestos limitados, en inglés y español.",
+  toolsH:"Herramientas",live:"Disponible",soon:"Próximamente",open:"Abrir la herramienta",
+  tiersH:"Empiece donde está",
+  tiersP:"Cada herramienta funciona en tres niveles, para que tanto una despensa de voluntarios como un banco de alimentos regional puedan usarla.",
+  whyH:"Por qué este toolkit",
+  whyP:"La asistencia alimentaria caritativa llega a millones de hogares, pero muchas organizaciones solo pueden mostrar cuánta comida distribuyen. Definiciones comunes, datos verificados, retroalimentación de los participantes y revisiones periódicas les ayudan a usar bien los recursos, escuchar a las personas que atienden y mostrar resultados a sus donantes.",
+  buildH:"En qué se basa",
+  buildP:"El toolkit adapta prácticas de medición y rendición de cuentas usadas por años en la asistencia alimentaria internacional financiada por EE.UU., como las fichas de indicadores, las evaluaciones de calidad de datos y los mecanismos de quejas y retroalimentación, a la realidad de la asistencia alimentaria caritativa en EE.UU. Complementa los esfuerzos existentes del sector y no los reemplaza.",
+  paper:"El modelo se describe en",
+  credit:"Creado por Karla Michelle Sanchez, especialista MEAL. Versión 0.1, noviembre 2026. Licencia Creative Commons CC BY-NC 4.0: puede usarse y adaptarse citando a la autora, sin fines comerciales.",
+  citeas:"Cítese como:",
+  privacy:"Las herramientas funcionan en su navegador. Sus respuestas no se envían ni se guardan en ningún servidor."}
+};
+const TOOLS=[
+ {live:true,href:"self-assessment.html",en:["MEAL Readiness Check","A 15-minute self-assessment across six areas. Get your level in each and concrete first steps."],es:["Diagnóstico de Capacidad MEAL","Autoevaluación de 15 minutos en seis áreas. Obtenga su nivel en cada una y primeros pasos concretos."]},
+ {en:["Indicator Reference Sheets","A core indicator set with documented definitions, so every site counts the same thing the same way."],es:["Fichas de Indicadores","Un conjunto básico de indicadores con definiciones documentadas, para que todos los sitios cuenten lo mismo de la misma forma."]},
+ {en:["Data Quality Check","A short checklist and spot-check method to verify the data sites and volunteers report."],es:["Verificación de Calidad de Datos","Una lista corta y un método de verificación por muestreo de los datos que reportan sitios y voluntarios."]},
+ {en:["Feedback and Complaints Mechanism","Channels, a log, response standards and templates to hear participants and close the loop."],es:["Mecanismo de Quejas y Retroalimentación","Canales, registro, tiempos de respuesta y plantillas para escuchar a los participantes y cerrar el ciclo."]},
+ {en:["Participant Experience Survey","Short questions on respect, timeliness, access and satisfaction with the food received."],es:["Encuesta de Experiencia de Participantes","Preguntas cortas sobre trato digno, puntualidad, acceso y satisfacción con los alimentos recibidos."]},
+ {en:["Learning Reviews","A guide to regular reviews where teams look at data and feedback and agree on changes."],es:["Revisiones de Aprendizaje","Una guía para revisiones periódicas donde los equipos analizan datos y opiniones y acuerdan cambios."]}
+];
+const TIERS={en:[["Basic","Standard output indicators, a simple feedback channel and a short data review."],["Intermediate","Data quality checks, logged feedback with tracked responses and quarterly learning reviews."],["Advanced","Participant surveys, food security tracking at selected sites and data used across the network."]],
+ es:[["Básico","Indicadores de producto estándar, un canal sencillo de opinión y una revisión corta de datos."],["Intermedio","Verificación de calidad de datos, opiniones registradas con seguimiento y revisiones trimestrales."],["Avanzado","Encuestas a participantes, seguimiento de seguridad alimentaria en sitios seleccionados y datos usados en toda la red."]]};
+const COLORS=["var(--t1)","var(--t2)","var(--t3)"];
+let lang="en";
+try{const l=localStorage.getItem("fam-lang");if(l==="en"||l==="es")lang=l;}catch(e){}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function render(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-t]").forEach(el=>el.textContent=T[lang][el.dataset.t]);
+  document.getElementById("lang-en").setAttribute("aria-pressed",lang==="en");
+  document.getElementById("lang-es").setAttribute("aria-pressed",lang==="es");
+  document.getElementById("tools").innerHTML=TOOLS.map((t,i)=>`<article class="tool ${t.live?"live":""}">
+    <span class="status">${t.live?T[lang].live:T[lang].soon}</span>
+    <h3>${esc(t[lang][0])}</h3><p>${esc(t[lang][1])}</p>
+    ${t.live?`<a class="btn" href="${t.href}">${T[lang].open}</a>`:""}</article>`).join("");
+  document.getElementById("tiers").innerHTML=TIERS[lang].map((t,i)=>`<div class="tier" style="border-top-color:${COLORS[i]}"><h3>${t[0]}</h3><p>${t[1]}</p></div>`).join("");
+}
+function setLang(l){lang=l;try{localStorage.setItem("fam-lang",l);}catch(e){}render();}
+document.getElementById("lang-en").onclick=()=>setLang("en");
+document.getElementById("lang-es").onclick=()=>setLang("es");
+render();
+</script>
+</body>
+</html>
