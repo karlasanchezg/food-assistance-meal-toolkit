@@ -6,7 +6,7 @@ type: software
 authors:
   - family-names: "Sanchez"
     given-names: "Karla Michelle"
-version: "0.2"
+version: "0.3"
 date-released: "2026-11-09"
 doi: 10.5281/zenodo.24091986
 license: CC-BY-NC-4.0

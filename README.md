@@ -10,13 +10,14 @@ The toolkit adapts practices long used in international food assistance and huma
 
 | Tool | Status |
 |---|---|
-| MEAL Readiness Check (self-assessment) | Available, version 0.2 |
-| Indicator Reference Sheets | Available, version 0.2 |
-| Data Quality Check | Available, version 0.2 |
-| Feedback and Complaints Mechanism | Available, version 0.2 |
-| Participant Experience Survey | Available, version 0.2 |
-| Learning Reviews | Available, version 0.2 |
-| MEAL Indicator Tracker (Excel, English and Spanish) | Available, version 0.2 |
+| MEAL Readiness Check (self-assessment) | Available, version 0.3 |
+| Indicator Reference Sheets | Available, version 0.3 |
+| Data Quality Check | Available, version 0.3 |
+| Feedback and Complaints Mechanism | Available, version 0.3 |
+| Participant Experience Survey | Available, version 0.3 |
+| Learning Reviews | Available, version 0.3 |
+| MEAL Indicator Tracker, single organization (Excel, English and Spanish) | Available, version 0.3 |
+| MEAL Indicator Tracker, network of up to 20 sites (Excel, English and Spanish) | Available, version 0.3 |
 
 ## Privacy
 
@@ -34,7 +35,7 @@ Karla Michelle Sanchez, MEAL specialist.
 
 ## How to cite
 
-Sanchez, K. M. (2026). *Food Assistance MEAL Toolkit* (Version 0.2). https://doi.org/10.5281/zenodo.24091986
+Sanchez, K. M. (2026). *Food Assistance MEAL Toolkit* (Version 0.3). https://doi.org/10.5281/zenodo.24091986
 
 See `CITATION.cff` for citation metadata.
 
