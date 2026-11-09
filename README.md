@@ -2,18 +2,19 @@
 
 Free, bilingual (English and Spanish) tools for monitoring, evaluation, accountability and learning (MEAL) in food pantries, meal programs, food banks and faith-based networks that deliver food assistance in the United States.
 
-The toolkit adapts practices long used in U.S.-funded international food assistance (indicator reference sheets, data quality assessments, complaints and feedback mechanisms, and structured learning reviews) to organizations that run on volunteers and limited budgets. Every tool works at three levels (Basic, Intermediate, Advanced) so organizations can start where they are.
+The toolkit adapts practices long used in international food assistance and humanitarian programs (indicator reference sheets, data quality checks, complaints and feedback mechanisms, and structured learning reviews) to organizations that run on volunteers and limited budgets. Every tool works at three levels (Basic, Intermediate, Advanced) so organizations can start where they are.
 
 ## Tools
 
 | Tool | Status |
 |---|---|
-| MEAL Readiness Check (self-assessment) | Available, version 0.1 |
-| Indicator Reference Sheets | Coming soon |
-| Data Quality Check | Coming soon |
-| Feedback and Complaints Mechanism | Coming soon |
-| Participant Experience Survey | Coming soon |
-| Learning Reviews | Coming soon |
+| MEAL Readiness Check (self-assessment) | Available, version 0.2 |
+| Indicator Reference Sheets | Available, version 0.2 |
+| Data Quality Check | Available, version 0.2 |
+| Feedback and Complaints Mechanism | Available, version 0.2 |
+| Participant Experience Survey | Available, version 0.2 |
+| Learning Reviews | Available, version 0.2 |
+| MEAL Indicator Tracker (Excel, English and Spanish) | Available, version 0.2 |
 
 ## Privacy
 
@@ -31,7 +32,7 @@ Karla Michelle Sanchez, MEAL specialist.
 
 ## How to cite
 
-Sanchez, K. M. (2026). *Food Assistance MEAL Toolkit* (Version 0.1).
+Sanchez, K. M. (2026). *Food Assistance MEAL Toolkit* (Version 0.2).
 
 See `CITATION.cff` for citation metadata.
 

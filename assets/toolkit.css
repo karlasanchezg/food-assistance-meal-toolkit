@@ -1,0 +1,72 @@
+/* Food Assistance MEAL Toolkit: shared styles for guide and tool pages. Same tokens as the home page. */
+:root{
+  --bg:#f4f6f3; --surface:#ffffff; --fg:#1c2a26; --muted:#5b6b66; --line:#d7dfda;
+  --accent:#2e6a4f; --accent-soft:#e3efe8; --grain:#b97b22;
+  --t1:#c2552f; --t2:#c9952a; --t3:#2e6a4f;
+  --t1-soft:#f6e1d8; --t2-soft:#f6ecd2; --t3-soft:#dcece3;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Public Sans", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121a18; --surface:#1a2522; --fg:#e6ece9; --muted:#9aaba5; --line:#2c3a36;
+  --accent:#6cc09a; --accent-soft:#1f352c; --grain:#e0a94e;
+  --t1:#e07a55; --t2:#e2b453; --t3:#6cc09a;
+  --t1-soft:#3a241c; --t2-soft:#3a3019; --t3-soft:#1f352c; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#121a18; --surface:#1a2522; --fg:#e6ece9; --muted:#9aaba5; --line:#2c3a36;
+  --accent:#6cc09a; --accent-soft:#1f352c; --grain:#e0a94e;
+  --t1:#e07a55; --t2:#e2b453; --t3:#6cc09a;
+  --t1-soft:#3a241c; --t2-soft:#3a3019; --t3-soft:#1f352c; color-scheme:dark }
+
+[data-lang="es"] .en,[data-lang="en"] .es{display:none!important}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6}
+[hidden]{display:none!important}
+.wrap{max-width:860px;margin:0 auto;padding-block:28px 56px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
+  display:flex;flex-direction:column;gap:32px}
+header.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:1.02rem;color:inherit;text-decoration:none}
+.brand small{display:block;font-family:var(--body);font-weight:500;font-size:.76rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{border:0;background:transparent;color:var(--muted);padding:6px 14px;font:600 .85rem var(--body);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--accent);color:var(--bg)}
+:focus-visible{outline:3px solid var(--grain);outline-offset:2px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,5vw,2.6rem);line-height:1.1;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:700;font-size:1.4rem;line-height:1.2;margin:0;text-wrap:balance}
+h3{font-family:var(--display);font-weight:500;font-size:1.1rem;margin:0}
+p{margin:0;max-width:68ch}
+ul,ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+section{display:flex;flex-direction:column;gap:14px}
+.hero{display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grain)}
+.lede{font-size:1.08rem;color:var(--muted)}
+.note{font-size:.88rem;color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tier{padding:16px;border-top:4px solid;border-radius:0 0 8px 8px;background:var(--surface);display:flex;flex-direction:column;gap:8px;min-width:0}
+.tier.b{border-color:var(--t1)}.tier.i{border-color:var(--t2)}.tier.a{border-color:var(--t3)}
+.tier ul{font-size:.93rem}
+.chip{display:inline-block;font-size:.74rem;font-weight:600;letter-spacing:.04em;padding:2px 9px;border-radius:999px}
+.chip.b{background:var(--t1-soft);color:var(--t1)}.chip.i{background:var(--t2-soft);color:var(--t2)}.chip.a{background:var(--t3-soft);color:var(--t3)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+.steps{counter-reset:s;list-style:none;padding:0;gap:12px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+.steps li::before{content:counter(s);font-family:var(--display);font-weight:700;width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.steps li>div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.template{font-family:ui-monospace,"SFMono-Regular",Consolas,monospace;font-size:.88rem;background:var(--bg);border:1px dashed var(--line);border-radius:8px;padding:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.btn{font:600 .95rem var(--body);padding:10px 18px;border-radius:8px;border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:var(--bg);text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:var(--accent)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.callout{border-left:4px solid var(--grain);background:var(--surface);padding:14px 16px;border-radius:0 8px 8px 0;display:flex;flex-direction:column;gap:6px}
+a{color:var(--accent)}
+footer{font-size:.84rem;color:var(--muted);display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:18px}
+cite{font-style:normal;user-select:all;color:var(--fg)}
+input[type=number],input[type=text],select,textarea{font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);min-width:0;max-width:100%}
+label.f{display:flex;flex-direction:column;gap:6px;font-size:.9rem;font-weight:600;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+@media (max-width:640px){.tiers{grid-template-columns:1fr}}
+@media print{.lang,.no-print,header.top .lang{display:none!important} body{background:#fff;color:#000} .panel,.tablewrap{border-color:#999} .wrap{max-width:none}}

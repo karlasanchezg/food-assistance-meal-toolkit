@@ -6,7 +6,7 @@ type: software
 authors:
   - family-names: "Sanchez"
     given-names: "Karla Michelle"
-version: "0.1"
+version: "0.2"
 date-released: "2026-11-09"
 license: CC-BY-NC-4.0
 keywords:

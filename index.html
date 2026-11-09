@@ -86,6 +86,15 @@ cite{font-style:normal;user-select:all;color:var(--fg)}
   </section>
 
   <section>
+    <h2 data-t="dlH"></h2>
+    <p class="lede" data-t="dlP"></p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a class="btn" href="tools/MEAL-Indicator-Tracker-EN.xlsx" style="margin-top:0">English (.xlsx)</a>
+      <a class="btn" href="tools/MEAL-Indicator-Tracker-ES.xlsx" style="margin-top:0">Español (.xlsx)</a>
+    </div>
+  </section>
+
+  <section>
     <h2 data-t="tiersH"></h2>
     <p class="lede" data-t="tiersP"></p>
     <div class="tiers" id="tiers"></div>
@@ -105,7 +114,7 @@ cite{font-style:normal;user-select:all;color:var(--fg)}
 
   <footer>
     <p data-t="credit"></p>
-    <p><span data-t="citeas"></span> <cite>Sanchez, K. M. (2026). Food Assistance MEAL Toolkit (Version 0.1).</cite></p>
+    <p><span data-t="citeas"></span> <cite>Sanchez, K. M. (2026). Food Assistance MEAL Toolkit (Version 0.2).</cite></p>
     <p data-t="privacy"></p>
   </footer>
 </div>
@@ -115,39 +124,41 @@ const T={
  en:{kicker:"Free, bilingual and open",
   title:"Tools to measure what your food assistance achieves",
   lede:"Practical monitoring, evaluation, accountability and learning (MEAL) tools for food pantries, meal programs, food banks and faith-based networks. Designed for organizations that run on volunteers and limited budgets, in English and Spanish.",
+  dlH:"MEAL Indicator Tracker (Excel)",dlP:"Record the 15 core indicators each month and get quarterly and annual results, with progress toward your targets. Works in Excel and Google Sheets.",
   toolsH:"Tools",live:"Available now",soon:"Coming soon",open:"Open the tool",
   tiersH:"Start where you are",
   tiersP:"Every tool works at three levels, so a volunteer-run pantry and a regional food bank can both use it.",
   whyH:"Why this toolkit",
   whyP:"Charitable food reaches millions of households, but many organizations can show how much food they distribute and not much more. Common definitions, verified data, participant feedback and regular learning reviews help them use resources well, hear the people they serve and show results to funders.",
   buildH:"What it builds on",
-  buildP:"The toolkit adapts measurement and accountability practices long used in U.S.-funded international food assistance, such as indicator reference sheets, data quality assessments and complaints and feedback mechanisms, to the reality of U.S. charitable food. It complements existing sector efforts and does not replace them.",
+  buildP:"The toolkit adapts measurement and accountability practices long used in international food assistance and humanitarian programs, such as indicator reference sheets, data quality assessments and complaints and feedback mechanisms, to the reality of U.S. charitable food. It complements existing sector efforts and does not replace them.",
   paper:"The model is described in",
-  credit:"Created by Karla Michelle Sanchez, MEAL specialist. Version 0.1, November 2026. Licensed under Creative Commons CC BY-NC 4.0: free to use and adapt with attribution, not for commercial purposes.",
+  credit:"Created by Karla Michelle Sanchez, MEAL specialist. Version 0.2, November 2026. Licensed under Creative Commons CC BY-NC 4.0: free to use and adapt with attribution, not for commercial purposes.",
   citeas:"Cite as:",
   privacy:"The tools run in your browser. Your answers are not sent to or stored on any server."},
  es:{kicker:"Gratis, bilingüe y abierto",
   title:"Herramientas para medir lo que logra su asistencia alimentaria",
   lede:"Herramientas prácticas de monitoreo, evaluación, rendición de cuentas y aprendizaje (MEAL) para despensas, comedores, bancos de alimentos y redes de fe. Diseñadas para organizaciones que funcionan con voluntarios y presupuestos limitados, en inglés y español.",
+  dlH:"Registro de Indicadores MEAL (Excel)",dlP:"Registre los 15 indicadores básicos cada mes y obtenga resultados trimestrales y anuales, con el avance hacia sus metas. Funciona en Excel y Google Sheets.",
   toolsH:"Herramientas",live:"Disponible",soon:"Próximamente",open:"Abrir la herramienta",
   tiersH:"Empiece donde está",
   tiersP:"Cada herramienta funciona en tres niveles, para que tanto una despensa de voluntarios como un banco de alimentos regional puedan usarla.",
   whyH:"Por qué este toolkit",
   whyP:"La asistencia alimentaria caritativa llega a millones de hogares, pero muchas organizaciones solo pueden mostrar cuánta comida distribuyen. Definiciones comunes, datos verificados, retroalimentación de los participantes y revisiones periódicas les ayudan a usar bien los recursos, escuchar a las personas que atienden y mostrar resultados a sus donantes.",
   buildH:"En qué se basa",
-  buildP:"El toolkit adapta prácticas de medición y rendición de cuentas usadas por años en la asistencia alimentaria internacional financiada por EE.UU., como las fichas de indicadores, las evaluaciones de calidad de datos y los mecanismos de quejas y retroalimentación, a la realidad de la asistencia alimentaria caritativa en EE.UU. Complementa los esfuerzos existentes del sector y no los reemplaza.",
+  buildP:"El toolkit adapta prácticas de medición y rendición de cuentas usadas por años en la asistencia alimentaria internacional y los programas humanitarios, como las fichas de indicadores, las evaluaciones de calidad de datos y los mecanismos de quejas y retroalimentación, a la realidad de la asistencia alimentaria caritativa en EE.UU. Complementa los esfuerzos existentes del sector y no los reemplaza.",
   paper:"El modelo se describe en",
-  credit:"Creado por Karla Michelle Sanchez, especialista MEAL. Versión 0.1, noviembre 2026. Licencia Creative Commons CC BY-NC 4.0: puede usarse y adaptarse citando a la autora, sin fines comerciales.",
+  credit:"Creado por Karla Michelle Sanchez, especialista MEAL. Versión 0.2, noviembre 2026. Licencia Creative Commons CC BY-NC 4.0: puede usarse y adaptarse citando a la autora, sin fines comerciales.",
   citeas:"Cítese como:",
   privacy:"Las herramientas funcionan en su navegador. Sus respuestas no se envían ni se guardan en ningún servidor."}
 };
 const TOOLS=[
  {live:true,href:"self-assessment.html",en:["MEAL Readiness Check","A 15-minute self-assessment across six areas. Get your level in each and concrete first steps."],es:["Diagnóstico de Capacidad MEAL","Autoevaluación de 15 minutos en seis áreas. Obtenga su nivel en cada una y primeros pasos concretos."]},
- {en:["Indicator Reference Sheets","A core indicator set with documented definitions, so every site counts the same thing the same way."],es:["Fichas de Indicadores","Un conjunto básico de indicadores con definiciones documentadas, para que todos los sitios cuenten lo mismo de la misma forma."]},
- {en:["Data Quality Check","A short checklist and spot-check method to verify the data sites and volunteers report."],es:["Verificación de Calidad de Datos","Una lista corta y un método de verificación por muestreo de los datos que reportan sitios y voluntarios."]},
- {en:["Feedback and Complaints Mechanism","Channels, a log, response standards and templates to hear participants and close the loop."],es:["Mecanismo de Quejas y Retroalimentación","Canales, registro, tiempos de respuesta y plantillas para escuchar a los participantes y cerrar el ciclo."]},
- {en:["Participant Experience Survey","Short questions on respect, timeliness, access and satisfaction with the food received."],es:["Encuesta de Experiencia de Participantes","Preguntas cortas sobre trato digno, puntualidad, acceso y satisfacción con los alimentos recibidos."]},
- {en:["Learning Reviews","A guide to regular reviews where teams look at data and feedback and agree on changes."],es:["Revisiones de Aprendizaje","Una guía para revisiones periódicas donde los equipos analizan datos y opiniones y acuerdan cambios."]}
+ {live:true,href:"indicators.html",en:["Indicator Reference Sheets","A core indicator set with documented definitions, so every site counts the same thing the same way."],es:["Fichas de Indicadores","Un conjunto básico de indicadores con definiciones documentadas, para que todos los sitios cuenten lo mismo de la misma forma."]},
+ {live:true,href:"data-quality.html",en:["Data Quality Check","A short checklist and spot-check method to verify the data sites and volunteers report."],es:["Verificación de Calidad de Datos","Una lista corta y un método de verificación por muestreo de los datos que reportan sitios y voluntarios."]},
+ {live:true,href:"feedback.html",en:["Feedback and Complaints Mechanism","Channels, a log, response standards and templates to hear participants and close the loop."],es:["Mecanismo de Quejas y Retroalimentación","Canales, registro, tiempos de respuesta y plantillas para escuchar a los participantes y cerrar el ciclo."]},
+ {live:true,href:"survey.html",en:["Participant Experience Survey","Short questions on respect, timeliness, access and satisfaction with the food received."],es:["Encuesta de Experiencia de Participantes","Preguntas cortas sobre trato digno, puntualidad, acceso y satisfacción con los alimentos recibidos."]},
+ {live:true,href:"learning-reviews.html",en:["Learning Reviews","A guide to regular reviews where teams look at data and feedback and agree on changes."],es:["Revisiones de Aprendizaje","Una guía para revisiones periódicas donde los equipos analizan datos y opiniones y acuerdan cambios."]}
 ];
 const TIERS={en:[["Basic","Standard output indicators, a simple feedback channel and a short data review."],["Intermediate","Data quality checks, logged feedback with tracked responses and quarterly learning reviews."],["Advanced","Participant surveys, food security tracking at selected sites and data used across the network."]],
  es:[["Básico","Indicadores de producto estándar, un canal sencillo de opinión y una revisión corta de datos."],["Intermedio","Verificación de calidad de datos, opiniones registradas con seguimiento y revisiones trimestrales."],["Avanzado","Encuestas a participantes, seguimiento de seguridad alimentaria en sitios seleccionados y datos usados en toda la red."]]};
