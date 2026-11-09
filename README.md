@@ -1,5 +1,7 @@
 # Food Assistance MEAL Toolkit
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24091986.svg)](https://doi.org/10.5281/zenodo.24091986)
+
 Free, bilingual (English and Spanish) tools for monitoring, evaluation, accountability and learning (MEAL) in food pantries, meal programs, food banks and faith-based networks that deliver food assistance in the United States.
 
 The toolkit adapts practices long used in international food assistance and humanitarian programs (indicator reference sheets, data quality checks, complaints and feedback mechanisms, and structured learning reviews) to organizations that run on volunteers and limited budgets. Every tool works at three levels (Basic, Intermediate, Advanced) so organizations can start where they are.
@@ -32,7 +34,7 @@ Karla Michelle Sanchez, MEAL specialist.
 
 ## How to cite
 
-Sanchez, K. M. (2026). *Food Assistance MEAL Toolkit* (Version 0.2).
+Sanchez, K. M. (2026). *Food Assistance MEAL Toolkit* (Version 0.2). https://doi.org/10.5281/zenodo.24091986
 
 See `CITATION.cff` for citation metadata.
 

@@ -8,7 +8,10 @@ authors:
     given-names: "Karla Michelle"
 version: "0.2"
 date-released: "2026-11-09"
+doi: 10.5281/zenodo.24091986
 license: CC-BY-NC-4.0
+repository-code: "https://github.com/karlasanchezg/food-assistance-meal-toolkit"
+url: "https://karlasanchezg.github.io/food-assistance-meal-toolkit"
 keywords:
   - monitoring and evaluation
   - MEAL
